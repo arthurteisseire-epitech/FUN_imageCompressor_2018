@@ -7,5 +7,5 @@ data Vector = Vector
     } deriving (Show, Eq)
 
 vplus :: Vector -> Vector -> Vector
-(Vector i j k) `vplus` (Vector l m n) = Vector (i + m) (j + m) (k + n)
+(Vector i j k) `vplus` (Vector l m n) = Vector (i + l) (j + m) (k + n)
 
