@@ -9,6 +9,9 @@ all:
 	stack build
 	stack install --local-bin-path ./
 
+test:
+	stack test
+
 clean:
 	stack clean
 	rm imageCompressor
