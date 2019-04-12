@@ -5,12 +5,12 @@ import System.Exit
 import Vector
 
 main :: IO ()
-main = getArgs >>= checkNbArgs >>= rFile
+main = getArgs >>= checkNbArgs >>= readInputFile
 
 checkNbArgs :: [String] -> IO [String]
 checkNbArgs args
     | length args == 3 = return args
     | otherwise = exitWith (ExitFailure 84)
 
-rFile :: [String] -> IO ()
-rFile (fileName:args) = putStrLn fileName
+readInputFile :: [String] -> IO ()
+readInputFile (fileName:args) = putStrLn fileName
