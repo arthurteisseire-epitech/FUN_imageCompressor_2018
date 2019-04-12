@@ -1,13 +1,13 @@
 module Color where
 
 data Color = Color
-    { x :: Float
-    , y :: Float
-    , z :: Float
+    { r :: Float
+    , g :: Float
+    , a :: Float
     } deriving (Show, Eq)
 
 vplus :: Color -> Color -> Color
-(Color x1 y1 z1) `vplus` (Color x2 y2 z2) = Color (x1 + x2) (y1 + y2) (z1 + z2)
+(Color r1 g1 b1) `vplus` (Color r2 g2 b2) = Color (r1 + r2) (g1 + g2) (b1 + b2)
 
 vdist :: Color -> Color -> Float
-(Color x1 y1 z1) `vdist` (Color x2 y2 z2) = sqrt $ (x1 - x2) ^ 2 + (y1 - y2) ^ 2 + (z1 - z2) ^ 2
+(Color r1 g1 b1) `vdist` (Color r2 g2 b2) = sqrt $ (r1 - r2) ^ 2 + (g1 - g2) ^ 2 + (b1 - b2) ^ 2
