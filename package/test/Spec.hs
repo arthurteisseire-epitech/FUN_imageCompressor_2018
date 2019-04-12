@@ -1,5 +1,5 @@
 import           Test.HUnit
-import           Vector
+import           Color
 
 main :: IO ()
 main = do
@@ -7,13 +7,13 @@ main = do
     return ()
 
 vectorEquals :: Test
-vectorEquals = TestCase $ assertEqual "Vectors Equals" (Vector 1 2 3) (Vector 1 2 3)
+vectorEquals = TestCase $ assertEqual "Color Equals" (Color 1 2 3) (Color 1 2 3)
 
 vectorPlus :: Test
-vectorPlus = TestCase $ assertEqual "Vector Plus" (Vector 2 4 6) (Vector 1 2 3 `vplus` Vector 1 2 3)
+vectorPlus = TestCase $ assertEqual "Color Plus" (Color 2 4 6) (Color 1 2 3 `vplus` Color 1 2 3)
 
 vectorDist :: Test
-vectorDist = TestCase $ assertEqual "Vector Dist" 5 (Vector 3 4 5 `vdist` Vector 3 8 2)
+vectorDist = TestCase $ assertEqual "Color Dist" 5 (Color 3 4 5 `vdist` Color 3 8 2)
 
 tests :: Test
 tests = TestList [vectorEquals, vectorPlus, vectorDist]

@@ -2,7 +2,7 @@ module Main where
 
 import System.Environment
 import System.Exit
-import Vector
+import Color
 
 main :: IO ()
 main = getArgs >>= checkNbArgs >>= readInputFile
