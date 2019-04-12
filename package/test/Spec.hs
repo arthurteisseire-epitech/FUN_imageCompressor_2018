@@ -1,5 +1,6 @@
+import           ColorTest
+import           PointTest
 import           Test.HUnit
-import ColorTest
 
 main :: IO ()
 main = do
@@ -7,4 +8,4 @@ main = do
     return ()
 
 tests :: Test
-tests = colorTests
+tests = TestList $ colorTests ++ pointTests
