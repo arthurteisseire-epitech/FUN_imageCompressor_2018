@@ -1,4 +1,5 @@
 import           ColorTest
+import           PixelTest
 import           PointTest
 import           Test.HUnit
 
@@ -8,4 +9,4 @@ main = do
     return ()
 
 tests :: Test
-tests = TestList $ colorTests ++ pointTests
+tests = TestList $ colorTests ++ pointTests ++ pixelTests
