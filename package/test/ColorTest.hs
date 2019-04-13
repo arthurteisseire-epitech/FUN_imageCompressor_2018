@@ -21,6 +21,9 @@ colorParserTestTooBig = TestCase $ assertEqual "Point parser" Nothing (strToColo
 colorParserTestMultipleDigit :: Test
 colorParserTestMultipleDigit = TestCase $ assertEqual "Point parser" (Just $ Color 123 234 123) (strToColor "(123,234,123)")
 
+colorParserTestNegative :: Test
+colorParserTestNegative = TestCase $ assertEqual "Point parser" Nothing (strToColor "(-1,1,1)")
+
 colorTests :: [Test]
 colorTests = [ colorEqual
              , colorPlus
@@ -28,4 +31,5 @@ colorTests = [ colorEqual
              , colorParserTest
              , colorParserTestTooBig
              , colorParserTestMultipleDigit
+             , colorParserTestNegative
              ]

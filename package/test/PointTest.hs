@@ -15,9 +15,13 @@ pointParserTestFail = TestCase $ assertEqual "Point parser" Nothing (strToPoint 
 pointParserTestMultipleDigit :: Test
 pointParserTestMultipleDigit = TestCase $ assertEqual "Point parser" (Just $ Point 11 22) (strToPoint "(11,22)")
 
+pointParserTestNegative :: Test
+pointParserTestNegative = TestCase $ assertEqual "Point parser" Nothing (strToPoint "(-1,1)")
+
 pointTests :: [Test]
 pointTests = [ pointEqual
              , pointParserTest
              , pointParserTestFail
              , pointParserTestMultipleDigit
+             , pointParserTestNegative
              ]
