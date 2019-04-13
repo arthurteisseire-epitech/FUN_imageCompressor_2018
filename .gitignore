@@ -2,3 +2,4 @@
 .stack-work
 imageCompressor
 *.iml
+package/out
