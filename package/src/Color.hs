@@ -4,16 +4,19 @@ import Text.ParserCombinators.ReadP
 import Data.Char
 
 data Color = Color
-    { r :: Float
-    , g :: Float
-    , a :: Float
+    { r :: Int
+    , g :: Int
+    , a :: Int
     } deriving (Show, Eq)
 
 vplus :: Color -> Color -> Color
 (Color r1 g1 b1) `vplus` (Color r2 g2 b2) = Color (r1 + r2) (g1 + g2) (b1 + b2)
 
 vdist :: Color -> Color -> Float
-(Color r1 g1 b1) `vdist` (Color r2 g2 b2) = sqrt $ (r1 - r2) ^ 2 + (g1 - g2) ^ 2 + (b1 - b2) ^ 2
+(Color r1 g1 b1) `vdist` (Color r2 g2 b2) = sqrt $ fromIntegral $ (r1 - r2) ^ 2 + (g1 - g2) ^ 2 + (b1 - b2) ^ 2
+
+isWord8 :: Int -> Bool
+isWord8 n = n >= 0 && n < 256
 
 colorParser :: ReadP Color
 colorParser = do
@@ -24,7 +27,10 @@ colorParser = do
     satisfy (== ',')
     z <- read <$> many1 (satisfy isDigit)
     satisfy (== ')')
-    return (Color x y z)
+    if isWord8 x && isWord8 y && isWord8 z then
+        return (Color x y z)
+    else
+        pfail
 
 strToColor :: String -> Maybe Color
 strToColor s
