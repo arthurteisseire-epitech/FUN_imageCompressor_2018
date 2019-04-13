@@ -1,5 +1,6 @@
 module Main where
 
+import           Cluster
 import           Data.Maybe
 import           ParseArgs
 import           Pixel
@@ -11,7 +12,10 @@ main = getArgs >>= parseArgs >>= getPixels >>= compute
 
 compute :: [Pixel] -> IO ()
 compute []     = putStrLn "No valid pixel given"
-compute pixels = getRandomPixel pixels >>= printPixel
+compute pixels = getRandomCluster pixels >>= putStrLn . clusterToStr
+
+getRandomCluster :: [Pixel] -> IO Cluster
+getRandomCluster pixels = clusterFromCentroid <$> getRandomPixel pixels
 
 getRandomPixel :: [Pixel] -> IO Pixel
 getRandomPixel pixels = do
