@@ -35,6 +35,7 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - package
+    - random
 
 tests:
   package-test:

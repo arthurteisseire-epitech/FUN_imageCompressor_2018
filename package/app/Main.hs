@@ -1,9 +1,10 @@
 module Main where
 
-import           ParseArgs
 import           Data.Maybe
+import           ParseArgs
 import           Pixel
 import           System.Environment
+import           System.Random
 
 main :: IO ()
 main = getArgs >>= parseArgs >>= getPixels >>= compute
