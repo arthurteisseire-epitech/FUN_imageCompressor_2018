@@ -21,3 +21,7 @@ strToPixel :: String -> Maybe Pixel
 strToPixel s
     | not $ null $ readP_to_S pixelParser s = Just $ fst $ head $ readP_to_S pixelParser s
     | otherwise = Nothing
+
+textToPixels :: String -> [Maybe Pixel]
+textToPixels text = map strToPixel (lines text)
+

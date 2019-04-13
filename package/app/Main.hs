@@ -20,10 +20,7 @@ getPixels :: [String] -> IO [Maybe Pixel]
 getPixels args = fileToPixels (head args)
 
 fileToPixels :: String -> IO [Maybe Pixel]
-fileToPixels fileName = readFile fileName >>= textToPixels
-
-textToPixels :: String -> IO [Maybe Pixel]
-textToPixels text = return $ map strToPixel (lines text)
+fileToPixels fileName = textToPixels <$> readFile fileName
 
 exitWithHelp :: IO a
 exitWithHelp = exitWith (ExitFailure 84)
