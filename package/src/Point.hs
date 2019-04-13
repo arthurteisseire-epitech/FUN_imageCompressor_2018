@@ -4,8 +4,8 @@ import Text.ParserCombinators.ReadP
 import Data.Char
 
 data Point = Point
-    { x :: Float
-    , y :: Float
+    { x :: Int
+    , y :: Int
     } deriving (Show, Eq)
 
 pointParser :: ReadP Point
@@ -21,3 +21,6 @@ strToPoint :: String -> Maybe Point
 strToPoint s
     | not $ null $ readP_to_S pointParser s = Just $ fst $ head $ readP_to_S pointParser s
     | otherwise = Nothing
+
+pointToStr :: Point -> String
+pointToStr point = "(" ++ show (x point) ++ "," ++ show (y point) ++ ")"

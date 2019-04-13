@@ -13,11 +13,12 @@ checkNbArgs args
     | length args == 3 = return args
     | otherwise = exitWithHelp
 
-compute :: [Maybe Pixel] -> IO ()
-compute args = putStrLn "toto"
+compute :: [Pixel] -> IO ()
+compute [] = putStrLn "No valid pixels given"
+compute pixels = printPixel $ head pixels
 
-getPixels :: [String] -> IO [Maybe Pixel]
-getPixels args = fileToPixels (head args)
+getPixels :: [String] -> IO [Pixel]
+getPixels args = catMaybes <$> fileToPixels (head args)
 
 fileToPixels :: String -> IO [Maybe Pixel]
 fileToPixels fileName = textToPixels <$> readFile fileName

@@ -6,7 +6,7 @@ import Data.Char
 data Color = Color
     { r :: Int
     , g :: Int
-    , a :: Int
+    , b :: Int
     } deriving (Show, Eq)
 
 vplus :: Color -> Color -> Color
@@ -36,3 +36,6 @@ strToColor :: String -> Maybe Color
 strToColor s
     | not $ null $ readP_to_S colorParser s = Just $ fst $ head $ readP_to_S colorParser s
     | otherwise = Nothing
+
+colorToStr :: Color -> String
+colorToStr color = "(" ++ show (r color) ++ "," ++ show (g color) ++ "," ++ show (b color) ++ ")"

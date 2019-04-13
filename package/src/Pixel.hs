@@ -2,6 +2,7 @@ module Pixel where
 
 import Text.ParserCombinators.ReadP
 import Data.Char
+import Data.Maybe
 import Point
 import Color
 
@@ -23,5 +24,10 @@ strToPixel s
     | otherwise = Nothing
 
 textToPixels :: String -> [Maybe Pixel]
-textToPixels text = map strToPixel (lines text)
+textToPixels = map strToPixel . lines
 
+pixelToStr :: Pixel -> String
+pixelToStr pixel = pointToStr (point pixel) ++ " " ++ colorToStr (color pixel)
+
+printPixel :: Pixel -> IO ()
+printPixel = putStrLn . pixelToStr
