@@ -1,11 +1,4 @@
-module Color
-    ( findClosestColor
-    , vdist
-    , vplus
-    , colorToStr
-    , colorParser
-    , strToColor
-    ) where
+module Color where
 
 import           Data.Char
 import           Text.ParserCombinators.ReadP
@@ -24,13 +17,13 @@ vdist :: Color -> Color -> Float
 
 findClosestColor :: [Color] -> Color -> Color
 findClosestColor [] _         = Color 0 0 0
-findClosestColor colors color = findClosestColor' colors color (head colors)
+findClosestColor colors color = findColor colors color (head colors) (<)
 
-findClosestColor' :: [Color] -> Color -> Color -> Color
-findClosestColor' [] _ minColor = minColor
-findClosestColor' (x:xs) color minColor
-    | (minColor `vdist` color) < (x `vdist` color) = findClosestColor' xs color minColor
-    | otherwise = findClosestColor' xs color x
+findColor :: [Color] -> Color -> Color -> (Float -> Float -> Bool) -> Color
+findColor [] _ minColor _ = minColor
+findColor (x:xs) color minColor cmp
+    | (minColor `vdist` color) `cmp` (x `vdist` color) = findColor xs color minColor cmp
+    | otherwise = findColor xs color x cmp
 
 isWord8 :: Int -> Bool
 isWord8 n = n >= 0 && n < 256
