@@ -20,5 +20,7 @@ pointParser = do
     satisfy (== ')')
     return (Point x y)
 
-pointParse :: String -> Point
-pointParse s = fst $ head $ readP_to_S pointParser s
+strToPoint :: String -> Maybe Point
+strToPoint s
+    | not $ null $ readP_to_S pointParser s = Just $ fst $ head $ readP_to_S pointParser s
+    | otherwise = Nothing

@@ -7,10 +7,17 @@ pointEqual :: Test
 pointEqual = TestCase $ assertEqual "Point Equal" (Point 1 2) (Point 1 2)
 
 pointParserTest :: Test
-pointParserTest = TestCase $ assertEqual "Point parser" (pointParse "(1,2)") (Point 1 2)
+pointParserTest = TestCase $ assertEqual "Point parser" (strToPoint "(1,2)") (Just $ Point 1 2)
+
+pointParserTestFail :: Test
+pointParserTestFail = TestCase $ assertEqual "Point parser" (strToPoint "(1,2,3)") Nothing
 
 pointParserMultipleDigitTest :: Test
-pointParserMultipleDigitTest = TestCase $ assertEqual "Point parser" (pointParse "(11,22)") (Point 11 22)
+pointParserMultipleDigitTest = TestCase $ assertEqual "Point parser" (strToPoint "(11,22)") (Just $ Point 11 22)
 
 pointTests :: [Test]
-pointTests = [pointEqual, pointParserTest, pointParserMultipleDigitTest]
+pointTests = [ pointEqual
+             , pointParserTest
+             , pointParserTestFail
+             , pointParserMultipleDigitTest
+             ]
