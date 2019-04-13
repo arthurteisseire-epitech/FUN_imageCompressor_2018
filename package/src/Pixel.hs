@@ -2,7 +2,6 @@ module Pixel where
 
 import Text.ParserCombinators.ReadP
 import Data.Char
-import Data.Maybe
 import Point
 import Color
 
@@ -15,8 +14,7 @@ pixelParser :: ReadP Pixel
 pixelParser = do
     point <- pointParser
     satisfy (== ' ')
-    color <- colorParser
-    return (Pixel point color)
+    Pixel point <$> colorParser
 
 strToPixel :: String -> Maybe Pixel
 strToPixel s
