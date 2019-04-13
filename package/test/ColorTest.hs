@@ -12,5 +12,12 @@ colorPlus = TestCase $ assertEqual "Color Plus" (Color 2 4 6) (Color 1 2 3 `vplu
 colorDist :: Test
 colorDist = TestCase $ assertEqual "Color Dist" 5 (Color 3 4 5 `vdist` Color 3 8 2)
 
+colorParserTest :: Test
+colorParserTest = TestCase $ assertEqual "Point parser" (strToColor "(1,2,3)") (Just $ Color 1 2 3)
+
 colorTests :: [Test]
-colorTests = [colorEqual, colorPlus, colorDist]
+colorTests = [ colorEqual
+             , colorPlus
+             , colorDist
+             , colorParserTest
+             ]

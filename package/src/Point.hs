@@ -8,15 +8,12 @@ data Point = Point
     , y :: Float
     } deriving (Show, Eq)
 
-digit :: ReadP Char
-digit = satisfy isDigit
-
 pointParser :: ReadP Point
 pointParser = do
     satisfy (== '(')
-    x <- read <$> many1 digit
+    x <- read <$> many1 (satisfy isDigit)
     satisfy (== ',')
-    y <- read <$> many1 digit
+    y <- read <$> many1 (satisfy isDigit)
     satisfy (== ')')
     return (Point x y)
 
