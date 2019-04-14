@@ -24,3 +24,6 @@ clusterToStr cluster =
     "," ++ show (blue cluster) ++ ")" ++
     "\n-\n" ++
     concatMap (\p -> pixelToStr p ++ "\n") (pixel cluster)
+
+printCluster :: Cluster -> IO ()
+printCluster = putStrLn . clusterToStr

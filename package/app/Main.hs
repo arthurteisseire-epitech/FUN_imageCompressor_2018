@@ -14,7 +14,7 @@ compute :: (Int, Float, String) -> IO ()
 compute (n, e, fileName) = do
     pixels <- getPixels fileName
     cluster <- getRandomCluster pixels n
-    (putStrLn . clusterToStr) cluster
+    printCluster cluster
 
 getRandomCluster :: [Pixel] -> Int -> IO Cluster
 getRandomCluster pixels n = clusterFromCentroid <$> getRandomPixel pixels
