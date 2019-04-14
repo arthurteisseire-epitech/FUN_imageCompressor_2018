@@ -1,6 +1,7 @@
 module ParseArgs
     ( parseArgs
     , third
+    , exitWithHelp
     ) where
 
 import           Data.Bits

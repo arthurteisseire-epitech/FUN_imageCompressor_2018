@@ -8,22 +8,28 @@ import           System.Environment
 import           System.Random
 
 main :: IO ()
-main = getArgs >>= parseArgs >>= getPixels >>= compute
+main = getArgs >>= parseArgs >>= compute
 
-compute :: [Pixel] -> IO ()
-compute []     = putStrLn "No valid pixel given"
-compute pixels = getRandomCluster pixels >>= putStrLn . clusterToStr
+compute :: (Int, Float, String) -> IO ()
+compute (n, e, fileName) = do
+    pixels <- getPixels fileName
+    cluster <- getRandomCluster pixels n
+    (putStrLn . clusterToStr) cluster
 
-getRandomCluster :: [Pixel] -> IO Cluster
-getRandomCluster pixels = clusterFromCentroid <$> getRandomPixel pixels
+getRandomCluster :: [Pixel] -> Int -> IO Cluster
+getRandomCluster pixels n = clusterFromCentroid <$> getRandomPixel pixels
 
 getRandomPixel :: [Pixel] -> IO Pixel
 getRandomPixel pixels = do
     gen <- getStdGen
     return $ pixels !! fst (randomR (0, length pixels - 1) gen :: (Int, StdGen))
 
-getPixels :: (Int, Float, String) -> IO [Pixel]
-getPixels args = catMaybes <$> fileToPixels (third args)
+getPixels :: String -> IO [Pixel]
+getPixels fileName = catMaybes <$> fileToPixels fileName
 
 fileToPixels :: String -> IO [Maybe Pixel]
-fileToPixels fileName = textToPixels <$> readFile fileName
+fileToPixels fileName = do
+    pixels <- textToPixels <$> readFile fileName
+    if null pixels
+        then exitWithHelp
+        else return pixels
