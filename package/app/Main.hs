@@ -1,6 +1,7 @@
 module Main where
 
 import           Cluster
+import           Data.List
 import           Data.Maybe
 import           ParseArgs
 import           Pixel
@@ -12,24 +13,28 @@ main = getArgs >>= parseArgs >>= compute
 
 compute :: (Int, Float, String) -> IO ()
 compute (n, e, fileName) = do
-    pixels <- getPixels fileName
-    cluster <- getRandomCluster pixels n
-    printCluster cluster
+    pixels <- getPixels fileName n
+    clusters <- getRandomClusters pixels n
+    printClusters clusters
 
-getRandomCluster :: [Pixel] -> Int -> IO Cluster
-getRandomCluster pixels n = clusterFromCentroid <$> getRandomPixel pixels
+getRandomClusters :: [Pixel] -> Int -> IO [Cluster]
+getRandomClusters pixels n = clusterFromCentroids <$> getRandomCentroids pixels n
 
-getRandomPixel :: [Pixel] -> IO Pixel
-getRandomPixel pixels = do
+getRandomCentroids :: [Pixel] -> Int -> IO [Pixel]
+getRandomCentroids pixels n = do
     gen <- getStdGen
-    return $ pixels !! fst (randomR (0, length pixels - 1) gen :: (Int, StdGen))
+    let indexes = take n (nub (randomRs (0, length pixels - 1) gen :: [Int]))
+    return $ getPixelsFromIndexes pixels indexes
 
-getPixels :: String -> IO [Pixel]
-getPixels fileName = catMaybes <$> fileToPixels fileName
+getPixelsFromIndexes :: [Pixel] -> [Int] -> [Pixel]
+getPixelsFromIndexes pixels = map (\x -> pixels !! x)
 
-fileToPixels :: String -> IO [Maybe Pixel]
-fileToPixels fileName = do
+getPixels :: String -> Int -> IO [Pixel]
+getPixels fileName n = catMaybes <$> fileToPixels fileName n
+
+fileToPixels :: String -> Int -> IO [Maybe Pixel]
+fileToPixels fileName n = do
     pixels <- textToPixels <$> readFile fileName
-    if null pixels
+    if length pixels < n
         then exitWithHelp
         else return pixels
