@@ -3,6 +3,7 @@ module Main where
 import           Cluster
 import           Data.List
 import           Data.Maybe
+import           Kmean
 import           ParseArgs
 import           Pixel
 import           System.Environment
@@ -14,7 +15,8 @@ main = getArgs >>= parseArgs >>= compute
 compute :: (Int, Float, String) -> IO ()
 compute (n, e, fileName) = do
     pixels <- getPixels fileName n
-    clusters <- getRandomClusters pixels n
+    centroids <- getRandomClusters pixels n
+    let clusters = kmean centroids pixels e
     printClusters clusters
 
 getRandomClusters :: [Pixel] -> Int -> IO [Cluster]
