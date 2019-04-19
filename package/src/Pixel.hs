@@ -32,3 +32,9 @@ printPixel = putStrLn . pixelToStr
 
 pixelColorEq :: Pixel -> Pixel -> Bool
 pixelColorEq pixel1 pixel2 = color pixel1 == color pixel2
+
+isUniqueColor :: [Pixel] -> Pixel -> Bool
+isUniqueColor [] _ = True
+isUniqueColor (x:xs) pixel
+    | pixelColorEq x pixel = False
+    | otherwise = isUniqueColor xs pixel
