@@ -28,9 +28,6 @@ getRandomCentroids pixels n = do
     let indexes = take n uniquePixels
     return $ getPixelsFromIndexes pixels indexes
 
-getPixelsFromIndexes :: [Pixel] -> [Int] -> [Pixel]
-getPixelsFromIndexes pixels = map (\x -> pixels !! x)
-
 getPixels :: String -> Int -> IO [Pixel]
 getPixels fileName n = catMaybes <$> fileToPixels fileName n
 

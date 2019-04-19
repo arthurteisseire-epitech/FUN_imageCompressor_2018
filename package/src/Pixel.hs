@@ -42,3 +42,6 @@ isUniqueColor (x:xs) pixel
 
 nubPixelsColor :: [Pixel] -> [Pixel]
 nubPixelsColor = nubBy (\x y -> color x == color y)
+
+getPixelsFromIndexes :: [Pixel] -> [Int] -> [Pixel]
+getPixelsFromIndexes pixels = map (\x -> pixels !! x)
