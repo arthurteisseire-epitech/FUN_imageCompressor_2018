@@ -24,7 +24,8 @@ getRandomClusters pixels n = clusterFromCentroids <$> getRandomCentroids pixels 
 getRandomCentroids :: [Pixel] -> Int -> IO [Pixel]
 getRandomCentroids pixels n = do
     gen <- getStdGen
-    let indexes = take n (nub (randomRs (0, length pixels - 1) gen :: [Int]))
+    let uniquePixels = nub (randomRs (0, length pixels - 1) gen :: [Int])
+    let indexes = take n uniquePixels
     return $ getPixelsFromIndexes pixels indexes
 
 getPixelsFromIndexes :: [Pixel] -> [Int] -> [Pixel]

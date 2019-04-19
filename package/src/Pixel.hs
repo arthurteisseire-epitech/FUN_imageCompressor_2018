@@ -29,3 +29,6 @@ pixelToStr pixel = pointToStr (point pixel) ++ " " ++ colorToStr (color pixel)
 
 printPixel :: Pixel -> IO ()
 printPixel = putStrLn . pixelToStr
+
+pixelColorEq :: Pixel -> Pixel -> Bool
+pixelColorEq pixel1 pixel2 = color pixel1 == color pixel2
