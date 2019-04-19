@@ -4,15 +4,19 @@ import           Color
 import           Pixel
 import           Point
 
-data Cluster = Cluster
+data Mean = Mean
     { red   :: Float
     , green :: Float
     , blue  :: Float
+    } deriving (Show, Eq)
+
+data Cluster = Cluster
+    { mean  :: Mean
     , pixel :: [Pixel]
     } deriving (Show, Eq)
 
 clusterFromCentroid :: Pixel -> Cluster
-clusterFromCentroid (Pixel (Point _ _) (Color r g b)) = Cluster (fromIntegral r) (fromIntegral g) (fromIntegral b) []
+clusterFromCentroid (Pixel (Point _ _) (Color r g b)) = Cluster (Mean (fromIntegral r) (fromIntegral g) (fromIntegral b)) []
 
 clusterFromCentroids :: [Pixel] -> [Cluster]
 clusterFromCentroids = map clusterFromCentroid
@@ -21,12 +25,10 @@ clusterToStr :: Cluster -> String
 clusterToStr cluster =
     "--\n" ++
     "(" ++
-    show (red cluster) ++
+    show (red $ mean cluster) ++
     "," ++
-    show (green cluster) ++
-    "," ++ show (blue cluster) ++ ")" ++
-    "\n-\n" ++
-    concatMap (\p -> pixelToStr p ++ "\n") (pixel cluster)
+    show (green $ mean cluster) ++
+    "," ++ show (blue $ mean cluster) ++ ")" ++ "\n-\n" ++ concatMap (\p -> pixelToStr p ++ "\n") (pixel cluster)
 
 clustersToStr :: [Cluster] -> String
 clustersToStr = concatMap clusterToStr
