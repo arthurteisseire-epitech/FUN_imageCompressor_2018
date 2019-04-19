@@ -38,3 +38,6 @@ printCluster = putStrLn . clusterToStr
 
 printClusters :: [Cluster] -> IO ()
 printClusters = putStrLn . clustersToStr
+
+vdistMean :: Color -> Mean -> Float
+(Color r1 g1 b1) `vdistMean` (Mean r2 g2 b2) = sqrt $ (fromIntegral r1 - r2) ^ 2 + (fromIntegral g1 - g2) ^ 2 + (fromIntegral b1 - b2) ^ 2
