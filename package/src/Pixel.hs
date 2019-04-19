@@ -1,9 +1,10 @@
 module Pixel where
 
-import Text.ParserCombinators.ReadP
-import Data.Char
-import Point
-import Color
+import           Color
+import           Data.Char
+import           Data.List
+import           Point
+import           Text.ParserCombinators.ReadP
 
 data Pixel = Pixel
     { point :: Point
@@ -38,3 +39,6 @@ isUniqueColor [] _ = True
 isUniqueColor (x:xs) pixel
     | pixelColorEq x pixel = False
     | otherwise = isUniqueColor xs pixel
+
+nubPixelsColor :: [Pixel] -> [Pixel]
+nubPixelsColor = nubBy (\x y -> color x == color y)
