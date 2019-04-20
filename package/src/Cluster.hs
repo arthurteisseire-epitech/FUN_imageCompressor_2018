@@ -1,18 +1,13 @@
 module Cluster where
 
 import           Color
+import           Numeric
 import           Pixel
 import           Point
 
-data Mean = Mean
-    { red   :: Float
-    , green :: Float
-    , blue  :: Float
-    } deriving (Show, Eq)
-
 data Cluster = Cluster
-    { mean  :: Color
-    , pixel :: [Pixel]
+    { mean   :: Color
+    , pixels :: [Pixel]
     } deriving (Show, Eq)
 
 clusterFromCentroid :: Pixel -> Cluster
@@ -25,10 +20,13 @@ clusterToStr :: Cluster -> String
 clusterToStr cluster =
     "--\n" ++
     "(" ++
-    show (r $ mean cluster) ++
+    formatFloatN (r $ mean cluster) 2 ++
     "," ++
-    show (g $ mean cluster) ++
-    "," ++ show (b $ mean cluster) ++ ")" ++ "\n-\n" ++ concatMap (\p -> pixelToStr p ++ "\n") (pixel cluster)
+    formatFloatN (g $ mean cluster) 2 ++
+    "," ++ formatFloatN (b $ mean cluster) 2 ++ ")" ++ "\n-\n" ++ concatMap (\p -> pixelToStr p ++ "\n") (pixels cluster)
+
+formatFloatN :: Float -> Int -> String
+formatFloatN floatNum numOfDecimals = showFFloat (Just numOfDecimals) floatNum ""
 
 clustersToStr :: [Cluster] -> String
 clustersToStr = concatMap clusterToStr
@@ -38,9 +36,3 @@ printCluster = putStrLn . clusterToStr
 
 printClusters :: [Cluster] -> IO ()
 printClusters = putStrLn . clustersToStr
-
-vdistMean :: Mean -> Mean -> Float
-(Mean r1 g1 b1) `vdistMean` (Mean r2 g2 b2) = sqrt $ (r1 - r2) ^ 2 + (g1 - g2) ^ 2 + (b1 - b2) ^ 2
-
-getMean :: Pixel -> Mean
-getMean pixel = Mean (r $ color pixel) (g $ color pixel) (b $ color pixel)
