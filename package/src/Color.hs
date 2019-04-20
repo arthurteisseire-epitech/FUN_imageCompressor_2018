@@ -15,6 +15,9 @@ vplus :: Color -> Color -> Color
 vdist :: Color -> Color -> Float
 (Color r1 g1 b1) `vdist` (Color r2 g2 b2) = sqrt $ (r1 - r2) ^ 2 + (g1 - g2) ^ 2 + (b1 - b2) ^ 2
 
+vdiv :: Color -> Int -> Color
+(Color r g b) `vdiv` n = Color (r / fromIntegral n) (g / fromIntegral n) (b / fromIntegral n)
+
 findClosestColor :: [Color] -> Color -> Color
 findClosestColor colors color = findColor colors color (head colors) (<)
 
