@@ -4,16 +4,16 @@ import           Data.Char
 import           Text.ParserCombinators.ReadP
 
 data Color = Color
-    { r :: Int
-    , g :: Int
-    , b :: Int
+    { r :: Float
+    , g :: Float
+    , b :: Float
     } deriving (Show, Eq)
 
 vplus :: Color -> Color -> Color
 (Color r1 g1 b1) `vplus` (Color r2 g2 b2) = Color (r1 + r2) (g1 + g2) (b1 + b2)
 
 vdist :: Color -> Color -> Float
-(Color r1 g1 b1) `vdist` (Color r2 g2 b2) = sqrt $ fromIntegral $ (r1 - r2) ^ 2 + (g1 - g2) ^ 2 + (b1 - b2) ^ 2
+(Color r1 g1 b1) `vdist` (Color r2 g2 b2) = sqrt $ (r1 - r2) ^ 2 + (g1 - g2) ^ 2 + (b1 - b2) ^ 2
 
 findClosestColor :: [Color] -> Color -> Color
 findClosestColor colors color = findColor colors color (head colors) (<)
@@ -24,7 +24,7 @@ findColor (x:xs) color minColor cmp
     | (minColor `vdist` color) `cmp` (x `vdist` color) = findColor xs color minColor cmp
     | otherwise = findColor xs color x cmp
 
-isWord8 :: Int -> Bool
+isWord8 :: Float -> Bool
 isWord8 n = n >= 0 && n < 256
 
 colorParser :: ReadP Color
@@ -46,4 +46,4 @@ strToColor s
     | otherwise = Nothing
 
 colorToStr :: Color -> String
-colorToStr color = "(" ++ show (r color) ++ "," ++ show (g color) ++ "," ++ show (b color) ++ ")"
+colorToStr color = "(" ++ show (round (r color)) ++ "," ++ show (round (g color)) ++ "," ++ show (round (b color)) ++ ")"

@@ -25,8 +25,8 @@ getRandomCentroids :: [Pixel] -> Int -> IO [Pixel]
 getRandomCentroids pixels n = do
     gen <- getStdGen
     let uniquePixels = nubPixelsColor pixels
-    let randomIndexes = nub (randomRs (0, length uniquePixels - 1) gen :: [Int])
-    let indexes = take (min n (length uniquePixels)) randomIndexes
+    let infiniteIndexes = nub (randomRs (0, length uniquePixels - 1) gen :: [Int])
+    let indexes = take (min n (length uniquePixels)) infiniteIndexes
     return $ getPixelsFromIndexes uniquePixels indexes
 
 getPixels :: String -> Int -> IO [Pixel]
