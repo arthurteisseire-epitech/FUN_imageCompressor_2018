@@ -1,12 +1,13 @@
 module Kmean where
 
-import Cluster
-import Pixel
-import Point
-import Color
+import           Cluster
+import           Color
+import           Pixel
+import           Point
 
 kmean :: [Cluster] -> [Pixel] -> Float -> [Cluster]
-kmean clusters pixels e = addPixelInClosestCluster clusters (head pixels)
+kmean clusters [] _ = clusters
+kmean clusters (x:xs) e = kmean (addPixelInClosestCluster clusters x) xs e
 
 addPixelInClosestCluster :: [Cluster] -> Pixel -> [Cluster]
 addPixelInClosestCluster [cluster] pixel = [Cluster (mean cluster) (pixel : pixels cluster)]
