@@ -6,8 +6,10 @@ import           Pixel
 import           Point
 
 kmean :: [Cluster] -> [Pixel] -> Float -> [Cluster]
-kmean clusters [] _ = clusters
-kmean clusters (x:xs) e = kmean (addPixelInClosestCluster clusters x) xs e
+kmean clusters pixels e = addPixelsInClusters clusters pixels
+
+addPixelsInClusters :: [Cluster] -> [Pixel] -> [Cluster]
+addPixelsInClusters = foldl addPixelInClosestCluster
 
 addPixelInClosestCluster :: [Cluster] -> Pixel -> [Cluster]
 addPixelInClosestCluster [cluster] pixel = [Cluster (mean cluster) (pixel : pixels cluster)]
