@@ -9,10 +9,10 @@ import           Point
 
 kmean :: [Cluster] -> [Pixel] -> Float -> [Cluster]
 kmean clusters p e
-    | isEnd res p e = calcClustersMean res
-    | otherwise = kmean (clearClusters $ calcClustersMean res) p e
+    | isEnd clustersWithPixels p e = calcClustersMean clustersWithPixels
+    | otherwise = kmean (clearClusters $ calcClustersMean clustersWithPixels) p e
   where
-    res = addPixelsInClusters clusters p
+    clustersWithPixels = addPixelsInClusters clusters p
 
 isEnd :: [Cluster] -> [Pixel] -> Float -> Bool
 isEnd [] _ _ = True
