@@ -8,10 +8,29 @@ import           Pixel
 import           Point
 
 kmean :: [Cluster] -> [Pixel] -> Float -> [Cluster]
-kmean clusters pixels e = cleanClusters $ step clusters pixels
+kmean clusters p e
+    | isEnd res p e = calcClustersMean res
+    | otherwise = kmean (clearClusters $ calcClustersMean res) p e
+  where
+    res = addPixelsInClusters clusters p
 
-step :: [Cluster] -> [Pixel] -> [Cluster]
-step clusters pixels = map calcClusterMean (addPixelsInClusters clusters pixels)
+isEnd :: [Cluster] -> [Pixel] -> Float -> Bool
+isEnd [] _ _ = True
+isEnd (x:xs) p e
+    | mean x `vdist` mean (calcClusterMean x) <= e = isEnd xs p e
+    | otherwise = False
+
+calcClustersMean :: [Cluster] -> [Cluster]
+calcClustersMean = map calcClusterMean
+
+calcClusterMean :: Cluster -> Cluster
+calcClusterMean cluster = Cluster (calcMean (pixels cluster)) (pixels cluster)
+
+calcMean :: [Pixel] -> Color
+calcMean pixels = foldr (vplus . color) (Color 0 0 0) pixels `vdiv` length pixels
+
+clearClusters :: [Cluster] -> [Cluster]
+clearClusters = map (\x -> Cluster (mean x) [])
 
 addPixelsInClusters :: [Cluster] -> [Pixel] -> [Cluster]
 addPixelsInClusters = foldl addPixelInClosestCluster
@@ -21,13 +40,3 @@ addPixelInClosestCluster [cluster] pixel = [Cluster (mean cluster) (pixel : pixe
 addPixelInClosestCluster (x:xs) pixel
     | mean x `vdist` color pixel > mean (head xs) `vdist` color pixel = x : addPixelInClosestCluster xs pixel
     | otherwise = head xs : addPixelInClosestCluster (x : tail xs) pixel
-
-calcClusterMean :: Cluster -> Cluster
-calcClusterMean cluster = Cluster (calcMean (pixels cluster)) (pixels cluster)
-
-calcMean :: [Pixel] -> Color
-calcMean [pixel] = color pixel
-calcMean (x:xs) = (color x `vplus` calcMean xs) `vdiv` length (x:xs)
-
-cleanClusters :: [Cluster] -> [Cluster]
-cleanClusters = map (\x -> Cluster (mean x) [])
