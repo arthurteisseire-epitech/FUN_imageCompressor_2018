@@ -1,6 +1,7 @@
 module Main where
 
 import           Cluster
+import           Control.Exception
 import           Data.List
 import           Data.Maybe
 import           Kmean
@@ -34,7 +35,7 @@ getPixels fileName n = catMaybes <$> fileToPixels fileName n
 
 fileToPixels :: String -> Int -> IO [Maybe Pixel]
 fileToPixels fileName n = do
-    pixels <- textToPixels <$> readFile fileName
+    pixels <- textToPixels <$> readFile fileName `catch` (\e -> const exitWithHelp (e :: IOException))
     if length pixels < n
         then exitWithHelp
         else return pixels
