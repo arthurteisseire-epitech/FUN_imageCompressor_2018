@@ -20,10 +20,9 @@ transfromArgs args = do
     n <- getArg (head args) :: IO Int
     e <- getArg (args !! 1) :: IO Float
     let fileName = last args
-    if n <= 0 || e <= 0 then
-        exitWithHelp
-    else
-        return (n, e, fileName)
+    if n <= 0 || e <= 0
+        then exitWithHelp
+        else return (n, e, fileName)
 
 parseArgs :: [String] -> IO (Int, Float, String)
 parseArgs args = checkNbArgs args >>= transfromArgs
@@ -38,4 +37,9 @@ third :: (Int, Float, String) -> String
 third (_, _, x) = x
 
 exitWithHelp :: IO a
-exitWithHelp = exitWith (ExitFailure 84)
+exitWithHelp = do
+    putStrLn "USAGE: ./imageCompressor n e IN\n\n\t\
+                     \n\t\tnumber of colors in the final image\n\t\
+                     \e\t\tconvergence limit\n\t\
+                     \IN\t\tpath to the file containing the colors of the pixels"
+    exitWith (ExitFailure 84)
