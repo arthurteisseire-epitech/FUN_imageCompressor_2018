@@ -9,7 +9,7 @@ all:
 	stack build
 	stack install --local-bin-path ./
 
-test:
+tests_run:
 	stack test
 
 clean:
