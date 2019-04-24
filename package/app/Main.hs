@@ -34,8 +34,4 @@ getPixels :: String -> Int -> IO [Pixel]
 getPixels fileName n = catMaybes <$> fileToPixels fileName n
 
 fileToPixels :: String -> Int -> IO [Maybe Pixel]
-fileToPixels fileName n = do
-    pixels <- textToPixels <$> readFile fileName `catch` (\e -> const exitWithHelp (e :: IOException))
-    if length pixels < n
-        then exitWithHelp
-        else return pixels
+fileToPixels fileName n = textToPixels <$> readFile fileName `catch` (\e -> const exitWithHelp (e :: IOException))
